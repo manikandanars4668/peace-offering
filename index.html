@@ -8,13 +8,14 @@
 <body><main class="card"><section id="question"><div class="spark" aria-hidden="true">💌</div><div class="eyebrow">a tiny peace offering</div><h1>கோவமா இருக்கியா?</h1><p>Kovama irukiya? 🥺</p><div class="buttons"><button class="no" id="no">No 🙈</button></div></section><section id="result" class="hidden result"><div class="spark" aria-hidden="true">💛</div><div class="eyebrow">peace restored</div><h1>Thank you! 🥹</h1><p style="font-size:22px;font-weight:700;color:#9c4863">Missed you a lot 💛</p><img class="portrait" src="portrait.jpg" alt="A painted portrait revealed with the thank-you message"><button class="again" id="again">Ask me again ↺</button></section></main><button class="yes" id="yes">Yes 😤</button>
 <script>
 const yes=document.querySelector('#yes'),no=document.querySelector('#no'),question=document.querySelector('#question'),result=document.querySelector('#result');
-function dodge(){const pad=14,w=yes.offsetWidth,h=yes.offsetHeight;let x=pad+Math.random()*Math.max(1,innerWidth-w-2*pad),y=pad+Math.random()*Math.max(1,innerHeight-h-2*pad);yes.style.left=x+'px';yes.style.top=y+'px'}
+function dodge(){const pad=14,w=yes.offsetWidth,h=yes.offsetHeight,card=document.querySelector('.card').getBoundingClientRect(),W=document.documentElement.clientWidth,H=document.documentElement.clientHeight;const zones=[{l:pad,r:card.left-pad-w,t:pad,b:H-h-pad},{l:card.right+pad,r:W-w-pad,t:pad,b:H-h-pad},{l:pad,r:W-w-pad,t:pad,b:card.top-pad-h},{l:pad,r:W-w-pad,t:card.bottom+pad,b:H-h-pad}].filter(z=>z.r>=z.l&&z.b>=z.t);const z=zones.length?zones[Math.floor(Math.random()*zones.length)]:{l:pad,r:W-w-pad,t:pad,b:H-h-pad};const x=z.l+Math.random()*Math.max(0,z.r-z.l),y=z.t+Math.random()*Math.max(0,z.b-z.t);yes.style.left=x+'px';yes.style.top=y+'px'}
 function placeBesideNo(){const r=no.getBoundingClientRect(),w=yes.offsetWidth,gap=12;let x=r.right+gap;if(x+w>innerWidth-12)x=Math.max(12,r.left-w-gap);yes.style.left=x+'px';yes.style.top=r.top+'px'}
 yes.addEventListener('pointerenter',dodge);yes.addEventListener('pointerdown',e=>{e.preventDefault();dodge()});document.addEventListener('pointermove',e=>{if(yes.classList.contains('hidden'))return;const r=yes.getBoundingClientRect(),cx=(r.left+r.right)/2,cy=(r.top+r.bottom)/2;if(Math.hypot(e.clientX-cx,e.clientY-cy)<34)dodge()});window.addEventListener('resize',placeBesideNo);no.addEventListener('click',()=>{question.classList.add('hidden');result.classList.remove('hidden');yes.classList.add('hidden');for(let i=0;i<18;i++)setTimeout(heart,i*90)});
 document.querySelector('#again').addEventListener('click',()=>{result.classList.add('hidden');question.classList.remove('hidden');yes.classList.remove('hidden');placeBesideNo()});
 function heart(){const el=document.createElement('div');el.className='heart';el.textContent=['💗','✨','🌸','💛'][Math.floor(Math.random()*4)];el.style.left=Math.random()*100+'vw';el.style.fontSize=(18+Math.random()*18)+'px';document.body.append(el);setTimeout(()=>el.remove(),4200)}
 requestAnimationFrame(placeBesideNo);
 </script></body></html>
+
 
 
 
